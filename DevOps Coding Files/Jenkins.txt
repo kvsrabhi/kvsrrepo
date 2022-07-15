@@ -1,0 +1,72 @@
+Jenkins Terraform script
+
+pipeline {
+    agent any
+    tools {
+        terraform 'Terraform'
+    }
+    stages {
+        stage('get code from BB stage1') {
+            steps {
+                git credentialsId: 'ccacdb2b-2998-450e-a044-afbcc469691c', url: 'https://abhikvsr@bitbucket.org/abhikvsr/kvsrrepo.git'
+            }
+        }
+        stage('terraform init stage2') {
+            steps {
+                sh label:'', script: 'terraform init'
+            }
+        }
+        stage('terraform plan stage3') {
+            steps {
+                sh label:'', script: 'terraform plan'
+            }
+        }
+        stage('terraform apply stage4') {
+            steps {
+                sh label:'', script: 'terraform apply --auto-approve'
+            }
+        }
+    }
+}
+
+
+
+
+
+Jenkins Maven Build
+
+
+pipeline {
+    agent any
+
+    tools {
+        maven "MAVEN"
+        jdk "JDK"
+    }
+
+    stages {
+        stage('Initialize'){
+            steps{
+                echo "PATH = ${M2_HOME}/bin:${PATH}"
+                echo "M2_HOME = /opt/maven"
+            }
+        }
+        stage('Build') {
+            steps {
+                dir("/var/lib/jenkins/workspace/New_demo/my-app/") {
+                sh 'mvn -B -DskipTests clean package'
+                }
+            
+            }
+        }
+     }
+    post {
+       always {
+          junit(
+        allowEmptyResults: true,
+        testResults: '*/test-reports/.xml'
+      )
+      }
+   } 
+}
+

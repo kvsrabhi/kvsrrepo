@@ -1,0 +1,29 @@
+Shell Script to create Home Directory and Directories
+
+#!/bin/bash
+mkdir home
+cd home
+mkdir bob
+cd bob
+mkdir mammals
+mkdir birds
+mkdir fish
+mkdir reptile
+mkdir amphibian
+cd mammals
+mkdir elephant
+mkdir monkey
+cd ..
+cd birds
+mkdir eagle
+cd ..
+cd fish
+mkdir salmon
+cd ..
+cd reptile
+mkdir snake
+mkdir frog
+cd ..
+cd amphibian
+mkdir salamander
+cd
